@@ -8,6 +8,7 @@ return {
     require("plugins.ui.bufferline"),
     require("plugins.ui.indent-blankline"),
     require("plugins.ui.which-key"),
+    require("plugins.ui.panels"),
 
     -- Editor Plugins
     require("plugins.editor.telescope"),
