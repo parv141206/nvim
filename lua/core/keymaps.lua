@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Keymaps
------------------------------------------------------------
+-- All the keybinds that make life easier
 local map = vim.keymap.set
 
 ---------- WINDOW NAVIGATION ----------

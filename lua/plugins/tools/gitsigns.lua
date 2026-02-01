@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Gitsigns: Git diff and blame in gutter
------------------------------------------------------------
+-- Shows git changes in the gutter, blame, etc.
 return {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPost", "BufNewFile" },

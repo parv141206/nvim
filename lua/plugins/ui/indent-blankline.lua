@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Indent Blankline: Visual indent guides
------------------------------------------------------------
+-- Shows indent levels visually
 return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",

@@ -1,6 +1,5 @@
------------------------------------------------------------
--- Bufferline: Tab-like buffer management
------------------------------------------------------------
+-- Tabs at the top for your open files
+-- Shift+H/L to move between them
 return {
     "akinsho/bufferline.nvim",
     version = "*",

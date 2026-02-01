@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Fugitive: Git integration
------------------------------------------------------------
+-- Git commands in Neovim. Super handy.
 return {
     "tpope/vim-fugitive",
     cmd = { "Git", "G" },

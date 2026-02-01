@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Editor Options
------------------------------------------------------------
+-- Just some reasonable vim settings
 local opt = vim.opt
 
 -- Line numbers

@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Comment.nvim: Easy code commenting
------------------------------------------------------------
+-- Toggle comments with Leader+/
 return {
     "numToStr/Comment.nvim",
     lazy = false,

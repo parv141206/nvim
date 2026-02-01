@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Telescope: Fuzzy finder
------------------------------------------------------------
+-- Fuzzy finder for files and text search
 return {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

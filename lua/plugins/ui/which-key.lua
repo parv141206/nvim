@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Which-key: Keybinding hints
------------------------------------------------------------
+-- Shows available keybinds when you press Leader
 return {
     "folke/which-key.nvim",
     event = "VeryLazy",

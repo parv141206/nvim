@@ -1,6 +1,5 @@
------------------------------------------------------------
--- GitHub Copilot: AI code suggestions
------------------------------------------------------------
+-- GitHub Copilot for code suggestions
+-- Run :Copilot auth to login
 return {
     {
         "github/copilot.vim",

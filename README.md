@@ -1,127 +1,88 @@
----
--- Neovim Configuration - Organized with Lazy.nvim
--- Structure Overview
----
+# My Neovim Config
 
--- File Structure:
--- ├── init.lua (Main config entry point)
--- ├── lazy-lock.json (Locked plugin versions)
--- └── lua/
--- ├── core/
--- │ ├── keymaps.lua (Global keybindings)
--- │ └── options.lua (Editor options)
--- └── plugins/
--- ├── init.lua (Main plugin loader)
--- ├── ui/ (UI & Visual plugins)
--- │ ├── themes.lua (Colorschemes)
--- │ ├── lualine.lua (Statusline)
--- │ ├── bufferline.lua (Buffer tabs)
--- │ ├── indent-blankline.lua (Indent guides)
--- │ └── which-key.lua (Keymap hints)
--- ├── editor/ (Editor functionality)
--- │ ├── telescope.lua (Fuzzy finder)
--- │ ├── neo-tree.lua (File explorer)
--- │ └── treesitter.lua (Syntax & code understanding)
--- ├── lsp/ (Language servers & completion)
--- │ ├── lsp-zero.lua (LSP config & completion)
--- │ └── mason.lua (Package manager)
--- ├── tools/ (Development tools)
--- │ ├── conform.lua (Formatting)
--- │ ├── comment.lua (Code commenting)
--- │ ├── fugitive.lua (Git integration)
--- │ └── gitsigns.lua (Git diff/blame)
--- └── integrations/ (Third-party integrations)
--- ├── copilot.lua (GitHub Copilot AI)
--- └── copilot-chat.lua (Copilot Chat interface)
+A lightweight, highly customizable Neovim setup for college practicals, general coding, and not spending 3 hours configuring things (too late for that).
 
----
+## What's Inside
 
-## -- Quick Keybinding Reference
+```
+init.lua                    Main entry point
+lazy-lock.json             Keep things reproducible
+lua/
+├── core/
+│   ├── keymaps.lua        All your keybinds
+│   ├── options.lua        Editor settings
+│   └── theme.lua          Theme management
+└── plugins/
+    ├── ui/                Colors, statusline, tabs
+    ├── editor/            File explorer, search, code understanding
+    ├── lsp/               Language servers & autocomplete
+    ├── tools/             Formatting, git, comments
+    └── integrations/      GitHub Copilot stuff
+```
 
--- WINDOW NAVIGATION
--- Ctrl+H - Focus left window
--- Ctrl+J - Focus lower window
--- Ctrl+K - Focus upper window
--- Ctrl+L - Focus right window
+## Getting Started
 
--- COMMENT TOGGLING
--- Leader+/ - Toggle comment on current line (any language)
--- Leader+/ - Toggle comment on selection (visual mode)
+1. Have Neovim 0.9+ installed (obviously)
+2. Clone to `~/.config/nvim`
+3. Open Neovim and wait for plugins to install
+4. Done. Seriously.
 
--- FILE EXPLORER
--- Leader+E - Toggle Neo-tree file explorer
+For Copilot stuff:
+- Run `:Copilot auth` to login
+- Use `Leader+COP` to toggle it on/off
 
--- FIND/SEARCH
--- Leader+FF - Find files
--- Leader+FG - Grep text
--- Leader+UT - Change colorscheme
+## Switching Themes
 
--- FORMATTING
--- Leader+P - Format file or selection
+Don't like the current theme? Run `:ThemeSelect` to pick from 12 different themes.
 
--- GIT OPERATIONS
--- Leader+GS - Git status
--- Leader+GD - Git diff
--- Leader+GC - Git commit
--- Leader+GB - Git blame
--- Leader+GL - Git log
--- Leader+GP - Git push
--- Leader+GU - Git pull
+Transparent backgrounds not your thing? Use:
+- `:ToggleTransparent` - Toggle background transparency
+- `:ToggleTransparentUI` - Toggle UI transparency
 
--- GIT SIGNS
--- Leader+GHB - Blame line
--- Leader+GHD - Diff this
--- Leader+GHH - Preview hunk
+Your choice gets saved automatically.
 
--- COPILOT
--- Leader+COP - Toggle Copilot
--- Leader+CCH - Copilot Chat Open
--- Leader+CCE - Copilot explain code
--- Leader+CCR - Copilot review code
--- Leader+CCF - Copilot fix code
+### Available Themes
 
--- BUFFER NAVIGATION
--- Shift+H - Previous buffer
--- Shift+L - Next buffer
+nightfox, kanagawa, tokyonight, gruvbox, catppuccin, night-owl, rose-pine, everforest, onedarkpro, nord, moonfly, tokyodark
 
----
+## Keyboard Shortcuts
 
-## -- Setup Instructions
+**Window Navigation**
+- `Ctrl+H/J/K/L` - Move between windows (vim style)
 
--- 1. Ensure Neovim (v0.9.0+) is installed
--- 2. Clone this config to ~/.config/nvim
--- 3. Open Neovim - plugins will auto-install
--- 4. Wait for lazy.nvim to finish syncing
--- 5. Configure GitHub Copilot:
--- - Run `:Copilot auth` to authenticate
--- - Use Leader+COP to toggle Copilot
--- - Use Leader+CCH for chat interface
+**Files & Search**
+- `Leader+E` - File explorer
+- `Leader+FF` - Find files
+- `Leader+FG` - Grep text
 
----
+**Editing**
+- `Leader+/` - Toggle comment
+- `Leader+P` - Format code
 
-## -- Changing Your Theme
+**Git (via Fugitive + Gitsigns)**
+- `Leader+GS` - Status
+- `Leader+GD` - Diff
+- `Leader+GB` - Blame
+- `Leader+GC` - Commit
 
--- TO CHANGE THE COLORSCHEME:
--- 1. Open: lua/core/theme.lua
--- 2. Edit line 16: M.theme = "nightfox"
--- 3. Choose from:
--- • "nightfox" - Sleek dark theme (default)
--- • "kanagawa" - Japanese-inspired
--- • "tokyonight" - Modern dark theme
--- • "gruvbox" - Retro groove theme
--- 4. Save and restart Neovim
---
--- The statusline will automatically adapt to your chosen theme!
+**Copilot**
+- `Leader+COP` - Toggle Copilot
+- `Leader+CCH` - Chat
+- `Leader+CCE` - Explain code
+- `Leader+CCR` - Review code
 
----
+**Buffers**
+- `Shift+H/L` - Previous/next buffer
 
-## -- Adding New Plugins
+## Adding More Stuff
 
--- UI Plugins: Add to lua/plugins/ui/_.lua
--- Editor Plugins: Add to lua/plugins/editor/_.lua
--- LSP Plugins: Add to lua/plugins/lsp/_.lua
--- Tools: Add to lua/plugins/tools/_.lua
--- Integrations: Add to lua/plugins/integrations/\*.lua
+Want to add a plugin? Just create a new file in the appropriate folder under `lua/plugins/` and it'll auto-load.
 
--- Then update lua/plugins/init.lua to include the new file:
--- require("plugins.category.pluginname")
+The config is pretty self-explanatory if you poke around a bit.
+
+## Notes
+
+- Single-file Java support for college practicals
+- Tab completion in the completion menu (press Tab to move through suggestions)
+- Everything just works™
+

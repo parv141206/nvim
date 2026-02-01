@@ -1,7 +1,5 @@
------------------------------------------------------------
--- Java LSP: Simple single-file configuration for jdtls
--- No build system required - perfect for college practicals
------------------------------------------------------------
+-- Java support for college practicals
+-- Works with single files, no Maven/Gradle needed
 return {
     "mfussenegger/nvim-jdtls",
     ft = "java",

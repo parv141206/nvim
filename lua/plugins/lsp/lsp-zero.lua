@@ -1,6 +1,5 @@
------------------------------------------------------------
--- LSP: Language Server Protocol configuration
------------------------------------------------------------
+-- Language servers, autocomplete, snippets
+-- Handles Java, Python, TypeScript, C/C++, etc.
 return {
     {
         "VonHeikemen/lsp-zero.nvim",

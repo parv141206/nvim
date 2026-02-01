@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Mason: Package manager for LSP, formatters, linters
------------------------------------------------------------
+-- Auto-install language servers and tools
 return {
     "williamboman/mason.nvim",
     opts = {

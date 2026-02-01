@@ -1,6 +1,4 @@
------------------------------------------------------------
--- Conform: Auto-formatting on save
------------------------------------------------------------
+-- Formats code with Leader+P
 return {
     "stevearc/conform.nvim",
     event = { "BufWritePre", "BufReadPre", "BufNewFile" },
