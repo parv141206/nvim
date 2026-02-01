@@ -1,0 +1,33 @@
+-----------------------------------------------------------
+-- Neovim Configuration
+-- Structure: init.lua -> core/ (options, keymaps) + plugins/
+-----------------------------------------------------------
+
+-- Leader key (must be set before plugins load)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- Load core configuration
+require("core.options")
+require("core.keymaps")
+
+-- Load plugins from plugins/ directory (lazy.nvim handles subdirectories)
+require("lazy").setup("plugins", {
+  git = {
+    timeout = 600,
+    url_format = "https://github.com/%s.git",
+  },
+  checker = { enabled = false },
+  change_detection = { notify = false },
+})

@@ -1,0 +1,59 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                         QUICK KEYBINDING REFERENCE                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+NAVIGATION:
+  Ctrl+H          Focus left window
+  Ctrl+J          Focus lower window  
+  Ctrl+K          Focus upper window
+  Ctrl+L          Focus right window
+  Shift+H         Previous buffer (tab)
+  Shift+L         Next buffer (tab)
+
+EDITING:
+  Leader + /      Toggle comment (any language)
+  Leader + P      Format file or selection
+
+FILE & SEARCH:
+  Leader + E      Toggle file explorer
+  Leader + FF     Find files
+  Leader + FG     Search text (grep)
+  Leader + UT     Change colorscheme
+
+GIT COMMANDS:
+  Leader + GS     Status
+  Leader + GD     Diff (splits view)
+  Leader + GC     Commit
+  Leader + GB     Blame (who changed what)
+  Leader + GL     Log (commit history)
+  Leader + GP     Push to remote
+  Leader + GU     Pull from remote
+
+GIT SIGNS (Diff/Blame):
+  Leader + GHB    Blame current line
+  Leader + GHD    Diff this file
+  Leader + GHH    Preview hunk (change)
+
+GITHUB COPILOT:
+  Leader + COP    Toggle Copilot on/off
+  Tab             Accept suggestion
+  Ctrl+]          Dismiss suggestion
+  Alt+]           Next suggestion
+  Alt+[           Previous suggestion
+
+COPILOT CHAT:
+  Leader + CCH    Open chat interface
+  Leader + CCE    Explain selected code
+  Leader + CCR    Review selected code
+  Leader + CCF    Fix or debug code
+
+═════════════════════════════════════════════════════════════════════════════
+
+Notes:
+• "Leader" is the space key by default (vim.g.mapleader = " ")
+• All Git commands require git to be installed
+• Copilot requires :Copilot auth on first use
+• Comment toggle (Leader+/) works in ALL programming languages
+• All keybindings can be customized in lua/core/keymaps.lua
+
+═════════════════════════════════════════════════════════════════════════════
