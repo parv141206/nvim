@@ -19,6 +19,7 @@ return {
     require("plugins.lsp.lsp-zero"),
     require("plugins.lsp.mason"),
     require("plugins.lsp.jdtls"),
+    require("plugins.lsp.rust"),
 
     -- Tools
     require("plugins.tools.conform"),

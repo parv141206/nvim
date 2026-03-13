@@ -6,6 +6,9 @@ return {
             "prettierd", "eslint_d", "stylua", "shfmt", "black",
             "jdtls",                -- Java LSP for single-file development
             "bash-language-server", -- Bash LSP
+            "rust-analyzer",        -- Rust LSP
+            "rustfmt",              -- Rust formatter
+            "codelldb",             -- Rust debugger (DAP)
         },
     },
 }

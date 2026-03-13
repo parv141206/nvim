@@ -10,7 +10,7 @@ return {
             ensure_installed = {
                 "javascript", "typescript", "tsx", "html", "css",
                 "json", "jsonc", "yaml", "markdown", "markdown_inline",
-                "python", "lua", "bash", "c", "cpp",
+                "python", "lua", "bash", "c", "cpp", "rust", "toml",
                 "regex", "gitignore", "gitcommit",
             },
             auto_install = true,

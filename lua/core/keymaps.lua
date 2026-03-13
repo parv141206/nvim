@@ -3,8 +3,8 @@ local map = vim.keymap.set
 
 ---------- QUIT ALL AT ONCE ----------
 -- Override :q to close everything in one go
-vim.api.nvim_create_user_command("Q", "qa!", {})
-vim.cmd("cabbrev q <c-u>Q<CR>")
+-- vim.api.nvim_create_user_command("Q", "qa!", {})
+-- vim.cmd("cabbrev q <c-u>Q<CR>")
 
 ---------- WINDOW NAVIGATION ----------
 map("n", "<C-h>", "<C-w><C-h>", { desc = "Focus left window" })

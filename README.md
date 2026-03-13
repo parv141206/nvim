@@ -28,6 +28,7 @@ lua/
 4. Done. Seriously.
 
 For Copilot stuff:
+
 - Run `:Copilot auth` to login
 - Use `Leader+COP` to toggle it on/off
 
@@ -36,6 +37,7 @@ For Copilot stuff:
 Don't like the current theme? Run `:ThemeSelect` to pick from 12 different themes.
 
 Transparent backgrounds not your thing? Use:
+
 - `:ToggleTransparent` - Toggle background transparency
 - `:ToggleTransparentUI` - Toggle UI transparency
 
@@ -48,30 +50,36 @@ nightfox, kanagawa, tokyonight, gruvbox, catppuccin, night-owl, rose-pine, everf
 ## Keyboard Shortcuts
 
 **Window Navigation**
+
 - `Ctrl+H/J/K/L` - Move between windows (vim style)
 
 **Files & Search**
+
 - `Leader+E` - File explorer
 - `Leader+FF` - Find files
 - `Leader+FG` - Grep text
 
 **Editing**
+
 - `Leader+/` - Toggle comment
 - `Leader+P` - Format code
 
 **Git (via Fugitive + Gitsigns)**
+
 - `Leader+GS` - Status
 - `Leader+GD` - Diff
 - `Leader+GB` - Blame
 - `Leader+GC` - Commit
 
 **Copilot**
+
 - `Leader+COP` - Toggle Copilot
 - `Leader+CCH` - Chat
 - `Leader+CCE` - Explain code
 - `Leader+CCR` - Review code
 
 **Buffers**
+
 - `Shift+H/L` - Previous/next buffer
 
 ## Adding More Stuff
@@ -83,6 +91,6 @@ The config is pretty self-explanatory if you poke around a bit.
 ## Notes
 
 - Single-file Java support for college practicals
+- Complete Rust support (LSP, Treesitter, rustfmt, clippy checks)
 - Tab completion in the completion menu (press Tab to move through suggestions)
 - Everything just works™
-
