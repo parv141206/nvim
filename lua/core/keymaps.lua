@@ -19,3 +19,7 @@ map("n", "<leader>/", function()
 end, { desc = "Comment line" })
 map("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
     { desc = "Comment selection" })
+
+---------- TERMINAL ----------
+-- Press Esc twice quickly to leave terminal-insert mode
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

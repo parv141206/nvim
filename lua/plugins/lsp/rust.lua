@@ -8,8 +8,16 @@ return {
         "ray-x/lsp_signature.nvim",
     },
     config = function()
+        local mason_rust_analyzer = vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer"
+        local ra_cmd = { "rust-analyzer" }
+
+        if vim.fn.executable(mason_rust_analyzer) == 1 then
+            ra_cmd = { mason_rust_analyzer }
+        end
+
         vim.g.rustaceanvim = {
             server = {
+                cmd = ra_cmd,
                 on_attach = function(_, bufnr)
                     local ok_lsp_zero, lsp_zero = pcall(require, "lsp-zero")
                     if ok_lsp_zero then
