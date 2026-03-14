@@ -27,6 +27,15 @@ local DEFAULT_THEME = "gruvbox"
 local DEFAULT_TRANSPARENT_BG = true
 local DEFAULT_TRANSPARENT_UI = true
 
+-- Normalize aliases/legacy theme names to actual colorscheme names
+local function normalize_theme_name(theme)
+    local aliases = {
+        onedark_pro = "onedark",
+    }
+
+    return aliases[theme] or theme
+end
+
 -- Load saved theme
 local function load_theme_config()
     local ok, content = pcall(function()
@@ -37,6 +46,7 @@ local function load_theme_config()
         local line = content[1]
         local theme, trans_bg, trans_ui = line:match("(.+):(.+):(.+)")
         if theme then
+            theme = normalize_theme_name(theme)
             return {
                 theme = theme,
                 transparent_bg = trans_bg == "true",
@@ -68,10 +78,11 @@ M.transparent_ui = M.config.transparent_ui
 
 -- Update and save theme
 function M.set_theme(theme_name)
-    M.theme = theme_name
-    M.config.theme = theme_name
+    local normalized = normalize_theme_name(theme_name)
+    M.theme = normalized
+    M.config.theme = normalized
     save_theme_config(M.theme, M.transparent_bg, M.transparent_ui)
-    vim.cmd.colorscheme(theme_name)
+    vim.cmd.colorscheme(normalized)
 end
 
 -- Toggle transparency

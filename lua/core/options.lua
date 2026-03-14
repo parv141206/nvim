@@ -23,3 +23,6 @@ opt.signcolumn = "yes"
 -- Behavior
 opt.clipboard = "unnamedplus"
 opt.swapfile = false
+
+-- Load persisted editor preferences + interactive settings UI
+require("core.editor_settings").setup()

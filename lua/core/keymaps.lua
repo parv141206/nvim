@@ -23,3 +23,6 @@ map("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.
 ---------- TERMINAL ----------
 -- Press Esc twice quickly to leave terminal-insert mode
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+---------- USER SETTINGS ----------
+map("n", "<leader>ue", "<cmd>EditorSettings<CR>", { desc = "Editor settings" })

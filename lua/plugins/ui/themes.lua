@@ -15,6 +15,8 @@ local TRANSPARENT_UI = theme_config.transparent_ui
 -- Create theme selection command
 local function setup_theme_commands()
     local themes = {
+        "ayu",
+        "cyberdream",
         "nightfox",
         "kanagawa",
         "tokyonight",
@@ -23,13 +25,41 @@ local function setup_theme_commands()
         "night-owl",
         "rose-pine",
         "everforest",
-        "onedark_pro",
+        "onedark",
         "nord",
         "moonfly",
+        "vague",
         "tokyodark",
     }
 
     vim.api.nvim_create_user_command("ThemeSelect", function()
+        local ok_builtin, builtin = pcall(require, "telescope.builtin")
+
+        if ok_builtin then
+            local actions = require("telescope.actions")
+            local action_state = require("telescope.actions.state")
+
+            builtin.colorscheme({
+                colors = themes,
+                enable_preview = true,
+                prompt_title = "Select Theme (Live Preview)",
+                attach_mappings = function(prompt_bufnr, _)
+                    actions.select_default:replace(function()
+                        local selection = action_state.get_selected_entry()
+                        actions.close(prompt_bufnr)
+
+                        if selection and selection.value then
+                            theme_config.set_theme(selection.value)
+                        end
+                    end)
+
+                    return true
+                end,
+            })
+            return
+        end
+
+        -- Fallback when Telescope is unavailable
         vim.ui.select(themes, {
             prompt = "Select Theme: ",
         }, function(choice)
@@ -71,6 +101,36 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 
 return {
+    -- Ayu theme
+    {
+        "Shatur/neovim-ayu",
+        name = "ayu",
+        config = function()
+            require("ayu").setup({
+                mirage = false,
+                terminal = true,
+            })
+            if THEME_NAME == "ayu" then
+                vim.cmd.colorscheme("ayu")
+            end
+        end,
+    },
+
+    -- Cyberdream theme
+    {
+        "scottmckendry/cyberdream.nvim",
+        name = "cyberdream",
+        priority = 1000,
+        config = function()
+            require("cyberdream").setup({
+                transparent = TRANSPARENT_BG,
+            })
+            if THEME_NAME == "cyberdream" then
+                vim.cmd.colorscheme("cyberdream")
+            end
+        end,
+    },
+
     -- Nightfox theme
     {
         "EdenEast/nightfox.nvim",
@@ -97,7 +157,8 @@ return {
         config = function()
             require("kanagawa").setup({
                 transparent = TRANSPARENT_BG,
-                background = { light = "kanagawa-light", dark = "kanagawa" },
+                background = { light = "lotus", dark = "wave" },
+                theme = "wave",
             })
             if THEME_NAME == "kanagawa" then
                 vim.cmd.colorscheme("kanagawa")
@@ -219,8 +280,8 @@ return {
                 highlights = {},
                 filetypes = {},
             })
-            if THEME_NAME == "onedark_pro" then
-                vim.cmd.colorscheme("onedarkpro")
+            if THEME_NAME == "onedark_pro" or THEME_NAME == "onedark" then
+                vim.cmd.colorscheme("onedark")
             end
         end,
     },
@@ -250,6 +311,20 @@ return {
             end
             if THEME_NAME == "moonfly" then
                 vim.cmd.colorscheme("moonfly")
+            end
+        end,
+    },
+
+    -- Vague theme
+    {
+        "vague-theme/vague.nvim",
+        name = "vague",
+        config = function()
+            require("vague").setup({
+                transparent = TRANSPARENT_BG,
+            })
+            if THEME_NAME == "vague" then
+                vim.cmd.colorscheme("vague")
             end
         end,
     },
