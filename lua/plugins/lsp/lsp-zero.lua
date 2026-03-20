@@ -23,48 +23,72 @@ return {
 
         config = function()
             local lsp_zero = require("lsp-zero")
-            local lspconfig = require("lspconfig")
-            local util = require("lspconfig.util")
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            local ok_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            if ok_cmp then
+                capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+            end
+
+            local function common_on_attach(_, bufnr)
+                lsp_zero.default_keymaps({ buffer = bufnr })
+                require("lsp_signature").on_attach({}, bufnr)
+            end
+
+            local function dirname(path)
+                return (vim.fs and vim.fs.dirname(path)) or vim.fn.fnamemodify(path, ":h")
+            end
+
+            local function setup_server(name, config)
+                if vim.lsp and vim.lsp.config and vim.lsp.enable then
+                    vim.lsp.config(name, config)
+                    vim.lsp.enable(name)
+                    return
+                end
+
+                -- Fallback for older Neovim versions
+                require("lspconfig")[name].setup(config)
+            end
 
             --------------------------------------------------
             -- bash-language-server (manual, single-file friendly)
             --------------------------------------------------
-            lspconfig.bashls.setup({
+            setup_server("bashls", {
                 filetypes = { "sh", "bash" },
                 root_dir = function(fname)
                     -- Single-file support
-                    return (util.path and util.path.dirname(fname)) or vim.fs.dirname(fname)
+                    return dirname(fname)
                 end,
+                capabilities = capabilities,
+                on_attach = common_on_attach,
             })
 
             --------------------------------------------------
-            -- lsp-zero base
+            -- Common LSP servers
             --------------------------------------------------
-            lsp_zero.on_attach(function(_, bufnr)
-                lsp_zero.default_keymaps({ buffer = bufnr })
-                require("lsp_signature").on_attach({}, bufnr)
-            end)
-
-            require("mason").setup({})
-
-            -- ONLY auto-managed servers
-            lsp_zero.setup_servers({
+            local servers = {
                 "ts_ls",
                 "eslint",
                 "tailwindcss",
                 "pyright",
                 "emmet_ls",
-            })
+            }
+
+            for _, server in ipairs(servers) do
+                setup_server(server, {
+                    capabilities = capabilities,
+                    on_attach = common_on_attach,
+                })
+            end
 
             --------------------------------------------------
             -- clangd (manual, single-file friendly)
             --------------------------------------------------
-            lspconfig.clangd.setup({
+            setup_server("clangd", {
                 cmd = { "clangd", "--background-index" },
                 filetypes = { "c", "cpp" },
                 root_dir = function(fname)
                     -- THIS is what makes single-file work
-                    return (util.path and util.path.dirname(fname)) or vim.fs.dirname(fname)
+                    return dirname(fname)
                 end,
                 init_options = {
                     fallbackFlags = {
@@ -73,6 +97,8 @@ return {
                         "-Wextra",
                     },
                 },
+                capabilities = capabilities,
+                on_attach = common_on_attach,
             })
 
             --------------------------------------------------
