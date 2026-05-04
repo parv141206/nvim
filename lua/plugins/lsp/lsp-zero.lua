@@ -66,7 +66,6 @@ return {
             -- Common LSP servers
             --------------------------------------------------
             local servers = {
-                "ts_ls",
                 "eslint",
                 "tailwindcss",
                 "pyright",
@@ -77,8 +76,22 @@ return {
                 setup_server(server, {
                     capabilities = capabilities,
                     on_attach = common_on_attach,
+                    flags = { debounce_text_changes = 150 },
                 })
             end
+
+            -- ts_ls needs single-file support: no package.json/tsconfig = fallback to file dir
+            setup_server("ts_ls", {
+                capabilities = capabilities,
+                on_attach = common_on_attach,
+                flags = { debounce_text_changes = 150 },
+                single_file_support = true,
+                root_dir = function(fname)
+                    local util = require("lspconfig.util")
+                    return util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")(fname)
+                        or vim.fn.fnamemodify(fname, ":h")
+                end,
+            })
 
             --------------------------------------------------
             -- clangd (manual, single-file friendly)
@@ -206,13 +219,11 @@ return {
                 },
             })
 
-            -- 🔑 Connect nvim-cmp with autopairs
-            local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-
-            cmp.event:on(
-                "confirm_done",
-                cmp_autopairs.on_confirm_done()
-            )
+            -- Connect nvim-cmp with autopairs (guarded: autopairs may load after lsp-zero)
+            local ok_ap, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+            if ok_ap then
+                cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+            end
         end,
     },
 }

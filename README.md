@@ -1,96 +1,79 @@
-# My Neovim Config
+# Neovim Config
 
-A lightweight, highly customizable Neovim setup for college practicals, general coding, and not spending 3 hours configuring things (too late for that).
+Personal Lua-based Neovim setup with LSP, Telescope, Neo-tree, Treesitter, Git tools, themes, and persistent editor settings.
 
-## What's Inside
+## Features
 
-```
-init.lua                    Main entry point
-lazy-lock.json             Keep things reproducible
+- `lazy.nvim` plugin management
+- LSP setup (including Java single-file support via `jdtls`)
+- Telescope-powered workflows
+- Neo-tree file explorer
+- Treesitter highlighting and text objects
+- Git integrations (`gitsigns`, `fugitive`)
+- REST API testing inside Neovim (`kulala.nvim`)
+- Theme selector with persistence
+- Editor settings UI with persistence (`:EditorSettings`)
+- Toggleable persistent floating terminal (`Alt+i`)
+- VSCode-like diagnostics (inline text + delayed hover popup)
+
+## Project Structure
+
+```text
+init.lua
 lua/
-├── core/
-│   ├── keymaps.lua        All your keybinds
-│   ├── options.lua        Editor settings
-│   └── theme.lua          Theme management
-└── plugins/
-    ├── ui/                Colors, statusline, tabs
-    ├── editor/            File explorer, search, code understanding
-    ├── lsp/               Language servers & autocomplete
-    ├── tools/             Formatting, git, comments
-    └── integrations/      GitHub Copilot stuff
+    core/
+        options.lua
+        keymaps.lua
+        theme.lua
+        editor_settings.lua
+        terminal.lua
+    plugins/
+        editor/
+        integrations/
+        lsp/
+        tools/
+        ui/
 ```
 
-## Getting Started
+## Keymaps (important)
 
-1. Have Neovim 0.9+ installed (obviously)
-2. Clone to `~/.config/nvim`
-3. Open Neovim and wait for plugins to install
-4. Done. Seriously.
+- Window focus: `Ctrl+h/j/k/l`
+- Window focus (alt): `Alt+h/l/up/down`
+- Resize splits: `Ctrl+Shift+Arrow`
+- Move current line: `Alt+j/k`
+- Insert at end of line: `I`
+- New line below from insert mode: `Ctrl+Enter`
+- Toggle floating terminal: `Alt+i`
+- Exit terminal mode: `Esc Esc`
+- Open editor settings UI: `<leader>ue`
+- Run current HTTP request: `xr` (inside `.http` / `.rest` files)
 
-For Copilot stuff:
+## Diagnostics Behavior
 
-- Run `:Copilot auth` to login
-- Use `Leader+COP` to toggle it on/off
+- Inline diagnostic messages show near end-of-line (subtle, low-opacity style)
+- Hover popup opens only after 5 seconds of no cursor movement
+- Signs (`E/W/I/H`) and underlines remain enabled
 
-## Switching Themes
+## REST Client Usage (`kulala.nvim`)
 
-Don't like the current theme? Run `:ThemeSelect` to pick from 12 different themes.
+1. Create a file like `api.http`.
+2. Write requests, for example:
 
-Transparent backgrounds not your thing? Use:
+```http
+GET https://jsonplaceholder.typicode.com/todos/1
 
-- `:ToggleTransparent` - Toggle background transparency
-- `:ToggleTransparentUI` - Toggle UI transparency
+###
 
-Your choice gets saved automatically.
+POST https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json
 
-### Available Themes
+{
+    "title": "foo",
+    "body": "bar",
+    "userId": 1
+}
+```
 
-nightfox, kanagawa, tokyonight, gruvbox, catppuccin, night-owl, rose-pine, everforest, onedarkpro, nord, moonfly, tokyodark
+3. Put cursor inside a request and use kulala actions (default mappings/commands).
 
-## Keyboard Shortcuts
-
-**Window Navigation**
-
-- `Ctrl+H/J/K/L` - Move between windows (vim style)
-
-**Files & Search**
-
-- `Leader+E` - File explorer
-- `Leader+FF` - Find files
-- `Leader+FG` - Grep text
-
-**Editing**
-
-- `Leader+/` - Toggle comment
-- `Leader+P` - Format code
-
-**Git (via Fugitive + Gitsigns)**
-
-- `Leader+GS` - Status
-- `Leader+GD` - Diff
-- `Leader+GB` - Blame
-- `Leader+GC` - Commit
-
-**Copilot**
-
-- `Leader+COP` - Toggle Copilot
-- `Leader+CCH` - Chat
-- `Leader+CCE` - Explain code
-- `Leader+CCR` - Review code
-
-**Buffers**
-
-- `Shift+H/L` - Previous/next buffer
-
-## Adding More Stuff
-
-Want to add a plugin? Just create a new file in the appropriate folder under `lua/plugins/` and it'll auto-load.
-
-The config is pretty self-explanatory if you poke around a bit.
-
-## Notes
-
-- Single-file Java support for college practicals
-- Complete Rust support (LSP, Treesitter, rustfmt, clippy checks)
-- Tab completion in the completion menu (press Tab to move through suggestions)
-- Everything just works™
+Tip: run `:help kulala` for exact mappings and commands in your installed version.

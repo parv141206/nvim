@@ -60,7 +60,9 @@ return {
                         local main_win = vim.api.nvim_get_current_win()
                         pcall(function() vim.cmd("OutlineOpen") end)
                         vim.defer_fn(function()
-                            pcall(function() vim.cmd("Trouble diagnostics open") end)
+                            if #vim.diagnostic.get(nil) > 0 then
+                                pcall(function() vim.cmd("Trouble diagnostics open") end)
+                            end
                             vim.defer_fn(function()
                                 pcall(function() vim.cmd("Git") end)
                                 vim.defer_fn(function()

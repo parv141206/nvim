@@ -12,6 +12,22 @@ local THEME_NAME = theme_config.theme
 local TRANSPARENT_BG = theme_config.transparent_bg
 local TRANSPARENT_UI = theme_config.transparent_ui
 
+local function is_selected_theme(name)
+    return THEME_NAME == name or vim.startswith(THEME_NAME, name .. "-")
+end
+
+local function apply_selected_theme(base_name)
+    if not is_selected_theme(base_name) then
+        return
+    end
+
+    local target = THEME_NAME
+    local ok = pcall(vim.cmd.colorscheme, target)
+    if not ok then
+        pcall(vim.cmd.colorscheme, base_name)
+    end
+end
+
 -- Create theme selection command
 local function setup_theme_commands()
     local themes = {
@@ -100,6 +116,51 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     end,
 })
 
+-- Universal transparency: runs after every colorscheme, clears bg on key groups.
+-- This forces transparency even on themes that don't natively support it.
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = "ThemeOverrides",
+    pattern = "*",
+    callback = function()
+        local theme_cfg = require("core.theme")
+
+        local function clear_bg(groups)
+            for _, group in ipairs(groups) do
+                local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+                if ok and type(hl) == "table" then
+                    hl.bg = nil
+                    hl.ctermbg = nil
+                    pcall(vim.api.nvim_set_hl, 0, group, hl)
+                end
+            end
+        end
+
+        if theme_cfg.transparent_bg then
+            clear_bg({
+                "Normal", "NormalNC", "NormalFloat", "NormalDark",
+                "SignColumn", "LineNr", "CursorLineNr",
+                "EndOfBuffer",
+                "WinSeparator", "VertSplit",
+                "FloatBorder",
+                "MsgArea",
+            })
+        end
+
+        if theme_cfg.transparent_ui then
+            clear_bg({
+                "StatusLine", "StatusLineNC",
+                "TabLine", "TabLineFill", "TabLineSel",
+                "BufferLine", "BufferLineBackground", "BufferLineFill",
+                "BufferLineTab", "BufferLineTabSelected", "BufferLineTabClose",
+                "NeoTreeNormal", "NeoTreeNormalNC", "NeoTreeEndOfBuffer",
+                "NeoTreeStatusLine", "NeoTreeStatusLineNC",
+                "OutlineNormal",
+                "Pmenu", "PmenuSbar", "PmenuThumb",
+            })
+        end
+    end,
+})
+
 return {
     -- Ayu theme
     {
@@ -110,9 +171,7 @@ return {
                 mirage = false,
                 terminal = true,
             })
-            if THEME_NAME == "ayu" then
-                vim.cmd.colorscheme("ayu")
-            end
+            apply_selected_theme("ayu")
         end,
     },
 
@@ -125,9 +184,7 @@ return {
             require("cyberdream").setup({
                 transparent = TRANSPARENT_BG,
             })
-            if THEME_NAME == "cyberdream" then
-                vim.cmd.colorscheme("cyberdream")
-            end
+            apply_selected_theme("cyberdream")
         end,
     },
 
@@ -143,9 +200,7 @@ return {
                     styles = { comments = "italic", keywords = "italic" },
                 },
             })
-            if THEME_NAME == "nightfox" then
-                vim.cmd.colorscheme("nightfox")
-            end
+            apply_selected_theme("nightfox")
             setup_theme_commands()
         end,
     },
@@ -160,9 +215,7 @@ return {
                 background = { light = "lotus", dark = "wave" },
                 theme = "wave",
             })
-            if THEME_NAME == "kanagawa" then
-                vim.cmd.colorscheme("kanagawa")
-            end
+            apply_selected_theme("kanagawa")
         end,
     },
 
@@ -175,9 +228,7 @@ return {
                 transparent = TRANSPARENT_BG,
                 style = "moon",
             })
-            if THEME_NAME == "tokyonight" then
-                vim.cmd.colorscheme("tokyonight")
-            end
+            apply_selected_theme("tokyonight")
         end,
     },
 
@@ -189,9 +240,7 @@ return {
             if TRANSPARENT_BG then
                 vim.g.gruvbox_transparent_bg = 1
             end
-            if THEME_NAME == "gruvbox" then
-                vim.cmd.colorscheme("gruvbox")
-            end
+            apply_selected_theme("gruvbox")
         end,
     },
 
@@ -212,9 +261,7 @@ return {
                     lsp_saga = true,
                 },
             })
-            if THEME_NAME == "catppuccin" then
-                vim.cmd.colorscheme("catppuccin")
-            end
+            apply_selected_theme("catppuccin")
         end,
     },
 
@@ -226,9 +273,7 @@ return {
             if TRANSPARENT_BG then
                 vim.g.night_owl_transparent_background = 1
             end
-            if THEME_NAME == "night-owl" then
-                vim.cmd.colorscheme("night-owl")
-            end
+            apply_selected_theme("night-owl")
         end,
     },
 
@@ -241,16 +286,11 @@ return {
                 dark_variant = "main",
                 styles = {
                     italic = true,
+                    transparency = TRANSPARENT_BG,
                 },
             })
             vim.o.background = "dark"
-            if TRANSPARENT_BG then
-                vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-                vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-            end
-            if THEME_NAME == "rose-pine" then
-                vim.cmd.colorscheme("rose-pine")
-            end
+            apply_selected_theme("rose-pine")
         end,
     },
 
@@ -264,9 +304,7 @@ return {
                 style = "dark",
                 background = "hard",
             })
-            if THEME_NAME == "everforest" then
-                vim.cmd.colorscheme("everforest")
-            end
+            apply_selected_theme("everforest")
         end,
     },
 
@@ -276,13 +314,11 @@ return {
         name = "onedark_pro",
         config = function()
             require("onedarkpro").setup({
-                colors = {},
-                highlights = {},
-                filetypes = {},
+                options = {
+                    transparency = TRANSPARENT_BG,
+                },
             })
-            if THEME_NAME == "onedark_pro" or THEME_NAME == "onedark" then
-                vim.cmd.colorscheme("onedark")
-            end
+            apply_selected_theme("onedark")
         end,
     },
 
@@ -295,9 +331,7 @@ return {
             if TRANSPARENT_BG then
                 vim.g.nord_disable_background = true
             end
-            if THEME_NAME == "nord" then
-                vim.cmd.colorscheme("nord")
-            end
+            apply_selected_theme("nord")
         end,
     },
 
@@ -309,9 +343,7 @@ return {
             if TRANSPARENT_BG then
                 vim.g.moonflyTransparent = 1
             end
-            if THEME_NAME == "moonfly" then
-                vim.cmd.colorscheme("moonfly")
-            end
+            apply_selected_theme("moonfly")
         end,
     },
 
@@ -323,9 +355,7 @@ return {
             require("vague").setup({
                 transparent = TRANSPARENT_BG,
             })
-            if THEME_NAME == "vague" then
-                vim.cmd.colorscheme("vague")
-            end
+            apply_selected_theme("vague")
         end,
     },
 
@@ -337,9 +367,7 @@ return {
             require("tokyodark").setup({
                 transparent_background = TRANSPARENT_BG,
             })
-            if THEME_NAME == "tokyodark" then
-                vim.cmd.colorscheme("tokyodark")
-            end
+            apply_selected_theme("tokyodark")
         end,
     },
 }

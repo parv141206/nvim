@@ -27,6 +27,7 @@ return {
     require("plugins.tools.fugitive"),
     require("plugins.tools.gitsigns"),
     require("plugins.tools.autopair"),
+    require("plugins.tools.rest"),
 
     -- Integrations
     require("plugins.integrations.copilot"),

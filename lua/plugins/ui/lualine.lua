@@ -5,7 +5,14 @@ return {
     config = function()
         local theme_config = require("core.theme")
         require("lualine").setup({
-            options = { theme = theme_config.theme },
+            		options = {
+			theme = "auto",
+			component_separators = { left = "", right = "" },
+			section_separators = { left = "", right = "" },
+			disabled_filetypes = { "alpha", "dashboard" },
+			always_divide_middle = true,
+			globalstatus = true,
+		},
         })
     end,
 }

@@ -14,7 +14,16 @@ return {
                 "regex", "gitignore", "gitcommit",
             },
             auto_install = true,
-            highlight = { enable = true },
+            highlight = {
+                enable = true,
+                disable = function(_, buf)
+                    local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+                    local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
+
+                    -- Avoid provider crashes in special UI buffers.
+                    return ft == "Outline" or bt == "nofile"
+                end,
+            },
             indent = { enable = true },
             incremental_selection = {
                 enable = true,
